@@ -26,6 +26,6 @@ namespace BlogPessoal.src.modelos
         [JsonIgnore]
         //usar JsonIgnore quando tem bidimensionalidade, pertence a postagem mas não faz mapeamento, ou seja ñ puxa as postagens
         public List<PostagemModelo> MinhasPostagens { get; set; }
-            
+        public string Nome { get; set; }
     }
 }
