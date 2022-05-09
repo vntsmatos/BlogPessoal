@@ -13,7 +13,7 @@ namespace BlogPessoal.src.repositorios
     public interface IPostagem
     {
         void NovaPostagem(NovaPostagemDTO postagem);
-        void AtualizarPostageem(AtualizarPostagemDTO postagem);
+        void AtualizarPostagem(AtualizarPostagemDTO postagem);
         void DeletarPostagem(int id);
         PostagemModelo PegarPostagemPeloId(int id);
         List<PostagemModelo> PegarTodasPostagens();
@@ -21,4 +21,5 @@ namespace BlogPessoal.src.repositorios
 
 
     }
+    
 }

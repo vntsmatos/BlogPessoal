@@ -1,4 +1,6 @@
 using BlogPessoal.src.data;
+using BlogPessoal.src.repositorios;
+using BlogPessoal.src.repositorios.implementacoes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +39,10 @@ namespace BlogPessoal
 
             //Configuração Controlador
             services.AddControllers();
+
+            services.AddScoped<IUsuario, UsuarioRepositorio>();
+            services.AddScoped<ITema, TemaRepositorio>();
+            services.AddScoped<IPostagem, PostagemRepositorio>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

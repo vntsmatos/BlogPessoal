@@ -2,7 +2,7 @@
 using BlogPessoal.src.modelos;
 using System.Collections.Generic;
 
-namespace BlogPessoal.src.repositorios.implementacoes
+namespace BlogPessoal.src.repositorios
 {
     /// <summary>
     /// <para>Resumo: Responsavel por representar ações de CRUD de tema</para>
@@ -16,7 +16,8 @@ namespace BlogPessoal.src.repositorios.implementacoes
         void AtualizarTema(AtualizarTemaDTO tema);
         void DeletarTema(int id);
         TemaModelo PegarTemaPeloId(int id);
-        List<TemaModelo> PegarTemaPelaDescricao(string descricao);
+        List<TemaModelo> PegarTemasPelaDescricao(string descricao);
+        List<TemaModelo> PegarTodosTemas();
     }
 
 }
