@@ -19,8 +19,4 @@
     <ProjectReference Include="..\BlogPessoal\BlogPessoal.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Testes\repositorios\" />
-  </ItemGroup>
-
 </Project>
