@@ -1,4 +1,4 @@
-﻿using BlogPessoal.src.utilidades.BlogPessoal.src.utilidades;
+﻿using BlogPessoal.src.utilidades;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlogPessoal.src.dtos

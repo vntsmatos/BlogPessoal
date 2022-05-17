@@ -1,4 +1,4 @@
-﻿using BlogPessoal.src.utilidades.BlogPessoal.src.utilidades;
+﻿using BlogPessoal.src.utilidades;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

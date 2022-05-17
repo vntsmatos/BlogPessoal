@@ -1,73 +1,75 @@
-﻿using BlogPessoal.src.data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using BlogPessoal.src.data;
 using BlogPessoal.src.dtos;
 using BlogPessoal.src.modelos;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogPessoal.src.repositorios.implementacoes
 {
     public class TemaRepositorio : ITema
     {
         #region Atributos
+
         private readonly BlogPessoalContext _context;
+
         #endregion Atributos
+
+
         #region Construtores
+
         public TemaRepositorio(BlogPessoalContext context)
         {
             _context = context;
         }
 
-        public void AtualizarTema(AtualizarTemaDTO tema)
-        {
-            var temaExistente = PegarTemaPeloId(tema.Id);
-            temaExistente.Descricao = tema.Descricao;
-            _context.Temas.Update(temaExistente);
-            _context.SaveChanges();
+        #endregion Construtores
 
+
+        #region Métodos
+
+        public async Task<List<TemaModelo>> PegarTodosTemasAsync()
+        {
+            return await _context.Temas.ToListAsync();
         }
 
-        public void DeletarTema(int id)
+        public async Task<TemaModelo> PegarTemaPeloIdAsync(int id)
         {
-            _context.Temas.Remove(PegarTemaPeloId(id));
-            _context.SaveChanges();
-
+            return await _context.Temas.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public void NovoTema(NovoTemaDTO tema)
+        public async Task<List<TemaModelo>> PegarTemasPelaDescricaoAsync(string descricao)
         {
-            _context.Temas.Add(new TemaModelo
+            return await _context.Temas
+                            .Where(u => u.Descricao.Contains(descricao))
+                            .ToListAsync();
+        }
+
+        public async Task NovoTemaAsync(NovoTemaDTO tema)
+        {
+            await _context.Temas.AddAsync(new TemaModelo
             {
                 Descricao = tema.Descricao
             });
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
         }
 
-        public List<TemaModelo> PegarTodosTemas()
+        public async Task AtualizarTemaAsync(AtualizarTemaDTO tema)
         {
-            return _context.Temas.ToList();
+            var temaExistente = await PegarTemaPeloIdAsync(tema.Id);
+            temaExistente.Descricao = tema.Descricao;
+            _context.Temas.Update(temaExistente);
+            await _context.SaveChangesAsync();
         }
 
-        public List<TemaModelo> PegarTemaPelaDescricao(string descricao)
+        public async Task DeletarTemaAsync(int id)
         {
-            return _context.Temas
-            .Where(u => u.Descricao.Contains(descricao))
-            .ToList();
+            _context.Temas.Remove(await PegarTemaPeloIdAsync(id));
+            await _context.SaveChangesAsync();
         }
 
-        public TemaModelo PegarTemaPeloId(int id)
-        {
-            return _context.Temas.FirstOrDefault(u => u.Id == id);
-
-        }
-
-        public List<TemaModelo> PegarTemasPelaDescricao(string descricao)
-        {
-            return _context.Temas.Where(T => T.Descricao.Contains(descricao)).ToList();
-        }
-        #endregion Construtores
-        #region Métodos
         #endregion Métodos
-
-
     }
 }
