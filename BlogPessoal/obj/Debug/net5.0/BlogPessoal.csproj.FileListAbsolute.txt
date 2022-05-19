@@ -58,3 +58,5 @@ C:\Users\usuario\Desktop\BlogPessoal\BlogPessoal\bin\Debug\net5.0\Swashbuckle.As
 C:\Users\usuario\Desktop\BlogPessoal\BlogPessoal\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\usuario\Desktop\BlogPessoal\BlogPessoal\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\usuario\Desktop\BlogPessoal\BlogPessoal\obj\Debug\net5.0\BlogPessoal.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\usuario\Desktop\BlogPessoal\BlogPessoal\bin\Debug\net5.0\Npgsql.dll
+C:\Users\usuario\Desktop\BlogPessoal\BlogPessoal\bin\Debug\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
