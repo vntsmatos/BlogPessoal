@@ -29,13 +29,27 @@ namespace BlogPessoal
         }
 
         public IConfiguration Configuration { get; }
-      
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BlogPessoalContext>(opt => opt.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+            // Configuraçãp Banco de Dados
+            if (Configuration["Enviroment:Start"] == "PROD")
+            {
+                services.AddEntityFrameworkNpgsql()
+                .AddDbContext<BlogPessoalContext>(
+                opt =>
+                opt.UseNpgsql(Configuration["ConnectionStringsProd:DefaultConnection"]));
+            }
+            else
+            {
+                services.AddDbContext<BlogPessoalContext>(
+                opt =>
+                opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
+            }
+
 
             services.AddScoped<IUsuario, UsuarioRepositorio>();
             services.AddScoped<ITema, TemaRepositorio>();
@@ -111,33 +125,46 @@ namespace BlogPessoal
                 context.Database.EnsureCreated();
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1")
-);
-            }
-
-            app.UseRouting();
-
-            app.UseCors(c => c
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader());
-
-            // Autenticação e Autorização
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
+                app.UseSwaggerUI(c =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1");
+                    c.RoutePrefix = string.Empty;
                 });
-            });
+                // Ambiente de produção
+                context.Database.EnsureCreated();
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1");
+                    c.RoutePrefix = string.Empty;
+                });
+
+
+                app.UseRouting();
+
+                app.UseCors(c => c
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
+
+                // Autenticação e Autorização
+                app.UseAuthentication();
+                app.UseAuthorization();
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGet("/", async context =>
+                    {
+                        await context.Response.WriteAsync("Hello World!");
+                    });
+                });
+            }
         }
     }
 }
