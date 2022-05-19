@@ -5,18 +5,23 @@ using System.Text.Json.Serialization;
 
 namespace BlogPessoal.src.modelos
 {
+    /// <summary>
+    /// <para>Resumo: Classe responsavel por representar tb_temas no banco.</para>
+    /// <para>Criado por: Vinicius Santos Matos </para>
+    /// <para>Versão: 1.0</para>
+    /// <para>Data: 12/05/2022</para>
+    /// </summary>
     [Table("tb_temas")]
     public class TemaModelo
     {
-        [Key] //chave primaria
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required, StringLength(20)]//para limitar
+        [Required, StringLength(20)]
         public string Descricao { get; set; }
 
         [JsonIgnore]
-        //usar JsonIgnore quando tem bidimensionalidade, pertence a postagem mas não faz mapeamento, ou seja ñ puxa as postagens
         public List<PostagemModelo> PostagensRelacionadas { get; set; }
     }
 }

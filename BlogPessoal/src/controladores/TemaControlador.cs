@@ -1,8 +1,10 @@
-﻿using BlogPessoal.src.dtos;
+﻿using System.Threading.Tasks;
+using BlogPessoal.src.dtos;
+using BlogPessoal.src.modelos;
 using BlogPessoal.src.repositorios;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace BlogPessoal.src.controladores
 {
@@ -30,6 +32,14 @@ namespace BlogPessoal.src.controladores
 
         #region Métodos
 
+        /// <summary>
+        /// Pegar todos temas
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Lista de temas</response>
+        /// <response code="204">Lista vasia</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> PegarTodosTemasAsync()
@@ -41,6 +51,15 @@ namespace BlogPessoal.src.controladores
             return Ok(lista);
         }
 
+        /// <summary>
+        /// Pegar tema pelo Id
+        /// </summary>
+        /// <param name="idTema">int</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorna o tema</response>
+        /// <response code="404">Tema não existente</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TemaModelo))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("id/{idTema}")]
         [Authorize]
         public async Task<ActionResult> PegarTemaPeloIdAsync([FromRoute] int idTema)
@@ -52,6 +71,15 @@ namespace BlogPessoal.src.controladores
             return Ok(tema);
         }
 
+        /// <summary>
+        /// Pegar tema pela Descrição
+        /// </summary>
+        /// <param name="descricaoTema">string</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="200">Retorna temas</response>
+        /// <response code="204">Descrição não existe</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TemaModelo))]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpGet("pesquisa")]
         [Authorize]
         public async Task<ActionResult> PegarTemasPelaDescricaoAsync([FromQuery] string descricaoTema)
@@ -63,6 +91,24 @@ namespace BlogPessoal.src.controladores
             return Ok(temas);
         }
 
+        /// <summary>
+        /// Criar novo Tema
+        /// </summary>
+        /// <param name="tema">NovoTemaDTO</param>
+        /// <returns>ActionResult</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        ///
+        ///     POST /api/Temas
+        ///     {
+        ///        "descricao": "CSHARP",
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">Retorna tema criado</response>
+        /// <response code="400">Erro na requisição</response>
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TemaModelo))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> NovoTemaAsync([FromBody] NovoTemaDTO tema)
@@ -74,6 +120,25 @@ namespace BlogPessoal.src.controladores
             return Created($"api/Temas", tema);
         }
 
+        /// <summary>
+        /// Atualizar Tema
+        /// </summary>
+        /// <param name="tema">AtualizarTemaDTO</param>
+        /// <returns>ActionResult</returns>
+        /// <remarks>
+        /// Exemplo de requisição:
+        ///
+        ///     PUT /api/Temas
+        ///     {
+        ///        "id": 1,    
+        ///        "descricao": "CSHARP"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="200">Retorna tema atualizado</response>
+        /// <response code="400">Erro na requisição</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TemaModelo))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
         [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<ActionResult> AtualizarTema([FromBody] AtualizarTemaDTO tema)
@@ -85,6 +150,13 @@ namespace BlogPessoal.src.controladores
             return Ok(tema);
         }
 
+        /// <summary>
+        /// Deletar tema pelo Id
+        /// </summary>
+        /// <param name="idTema">int</param>
+        /// <returns>ActionResult</returns>
+        /// <response code="204">Tema deletado</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [HttpDelete("deletar/{idTema}")]
         [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<ActionResult> DeletarTema([FromRoute] int idTema)

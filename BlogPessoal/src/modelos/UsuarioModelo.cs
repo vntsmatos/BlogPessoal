@@ -6,15 +6,21 @@ using System.Text.Json.Serialization;
 
 namespace BlogPessoal.src.modelos
 {
-    [Table("tb_usuario")]
+    /// <summary>
+    /// <para>Resumo: Classe responsavel por representar tb_usuarios no banco.</para>
+    /// <para>Criado por: Vinicius Santos Matos </para>
+    /// <para>Versão: 1.0</para>
+    /// <para>Data: 12/05/2022</para>
+    /// </summary>
+    [Table("tb_usuarios")]
     public class UsuarioModelo
     {
-        [Key] //chave primaria
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; } //coluna id
+        public int Id { get; set; }
 
-        [Required, StringLength(50)]//para limitar
-        public string Name { get; set; }//agora VOU COLOCAR os atributos
+        [Required, StringLength(50)]
+        public string Nome { get; set; }
 
         [Required, StringLength(30)]
         public string Email { get; set; }
@@ -28,8 +34,7 @@ namespace BlogPessoal.src.modelos
         public TipoUsuario Tipo { get; set; }
 
         [JsonIgnore]
-        //usar JsonIgnore quando tem bidimensionalidade, pertence a postagem mas não faz mapeamento, ou seja ñ puxa as postagens
         public List<PostagemModelo> MinhasPostagens { get; set; }
-        public string Nome { get; set; }
+
     }
 }
