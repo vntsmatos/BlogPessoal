@@ -35,7 +35,7 @@ namespace BlogPessoal
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configuraçãp Banco de Dados
+            // Configuraï¿½ï¿½p Banco de Dados
             if (Configuration["Enviroment:Start"] == "PROD")
             {
                 services.AddEntityFrameworkNpgsql()
@@ -58,9 +58,9 @@ namespace BlogPessoal
             services.AddCors();
             services.AddControllers();
 
-            // Configuração de Serviços
+            // Configuraï¿½ï¿½o de Serviï¿½os
             services.AddScoped<IAutenticacao, AutenticacaoServicos>();
-            // Configuração do Token Autenticação JWTBearer
+            // Configuraï¿½ï¿½o do Token Autenticaï¿½ï¿½o JWTBearer
             var chave = Encoding.ASCII.GetBytes(Configuration["Settings:Secret"]);
             services.AddAuthentication(a =>
             {
@@ -82,7 +82,7 @@ namespace BlogPessoal
             }
             );
 
-            // Configuração Swagger
+            // Configuraï¿½ï¿½o Swagger
             services.AddSwaggerGen(s =>
             {
                 s.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog Pessoal", Version = "v1" });
@@ -131,41 +131,33 @@ namespace BlogPessoal
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1");
                     c.RoutePrefix = string.Empty;
                 });
-                // Ambiente de produção
-                context.Database.EnsureCreated();
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1");
-                    c.RoutePrefix = string.Empty;
-                });
-
-
-                app.UseRouting();
-
-                app.UseCors(c => c
-                            .AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader());
-
-                // Autenticação e Autorização
-                app.UseAuthentication();
-                app.UseAuthorization();
-
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
-
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapGet("/", async context =>
-                    {
-                        await context.Response.WriteAsync("Hello World!");
-                    });
-                });
             }
+
+            // Ambiente de produï¿½ï¿½o
+            context.Database.EnsureCreated();
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogPessoal v1");
+                c.RoutePrefix = string.Empty;
+            });
+
+            app.UseRouting();
+
+            app.UseCors(c => c
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+
+            // Autenticaï¿½ï¿½o e Autorizaï¿½ï¿½o
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

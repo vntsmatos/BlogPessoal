@@ -2,6 +2,7 @@
 
 namespace BlogPessoal.src.dtos
 {
+    /// <summary>
     /// <para>Resumo: Classe espelho para criar uma nova postagem</para>
     /// <para>Criado por: Vinicius Santos Matos</para>
     /// <para>Versão: 1.0</para>
@@ -9,8 +10,6 @@ namespace BlogPessoal.src.dtos
     /// </summary>
     public class NovaPostagemDTO
     {
-        
-
         [Required, StringLength(30)]
         public string Titulo { get; set; }
 
